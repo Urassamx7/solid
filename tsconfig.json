@@ -1,7 +1,12 @@
 {
-    "extends": "@tsconfig/node24/tsconfig.json",
-    "compilerOptions": {
-        "rootDir": "."
-    },
-    "include": ["src/**/*", "index.ts"]
+	"extends": "@tsconfig/node24/tsconfig.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": ["src/**/*", "index.ts"],
+	"exclude": ["node_modules", "dist"]
 }

@@ -1,0 +1,25 @@
+{
+	"postman.settings.dotenv-detection-notification-visibility": false,
+
+	"editor.defaultFormatter": "biomejs.biome",
+
+	"prettier.enable": false,
+
+	"editor.formatOnSave": true,
+
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "explicit"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
