@@ -20,6 +20,7 @@
 		"check": "bunx --bun @biomejs/biome check --write"
 	},
 	"dependencies": {
+		"@prisma/client": "6",
 		"@tsconfig/node24": "^24.0.4",
 		"dotenv": "^17.4.2",
 		"fastify": "^5.8.5",
@@ -30,6 +31,7 @@
 		"@biomejs/biome": "2.4.16",
 		"@types/bun": "latest",
 		"@types/node": "^25.9.3",
+		"prisma": "6",
 		"tsx": "^4.22.4",
 		"typescript": "^6.0.3"
 	}
