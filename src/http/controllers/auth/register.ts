@@ -1,7 +1,8 @@
+import { ConflictError } from '@/http/errors/conflict-error'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
+import { RegisterUseCase } from '@/use-cases/register'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { ConflictError } from '@/http/errors/conflict-error'
-import { registerUseCase } from '@/use-cases/register'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const registerSchema = z.object({
@@ -13,7 +14,10 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const { email, password, name } = registerSchema.parse(request.body)
 
 	try {
-		const user = await registerUseCase({ email, password, name })
+		const prismaUserRepository = new PrismaUsersRepository()
+		const registerUseCase = new RegisterUseCase(prismaUserRepository)
+
+		const user = await registerUseCase.execute({ email, password, name })
 		return reply.status(201).send({
 			id: user.id
 		})
