@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { ConflictError } from '@/http/errors/conflict-error'
 import { prisma } from '@/lib/prisma'
+import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
 
 interface RegisterUseCaseRequest {
 	name: string
@@ -27,12 +28,13 @@ export async function registerUseCase({
 
 	const passwordHash = await bcrypt.hash(password, HASH_SALT)
 
-	const user = await prisma.user.create({
-		data: {
-			email,
-			passwordHash,
-			name
-		}
+	const prismaUserRepository = new PrismaUsersRepository()
+
+	const user = await prismaUserRepository.create({
+		email,
+		name,
+		passwordHash
 	})
+
 	return { id: user.id }
 }
