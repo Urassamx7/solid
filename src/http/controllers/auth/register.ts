@@ -1,9 +1,7 @@
-import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-
-const HASH_SALT = 6
+import { ConflictError } from '@/http/errors/conflict-error'
+import { registerUseCase } from '@/use-cases/register'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const registerSchema = z.object({
@@ -14,27 +12,19 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
 	const { email, password, name } = registerSchema.parse(request.body)
 
-	const exists = await prisma.user.findUnique({
-		where: {
-			email
+	try {
+		const user = await registerUseCase({ email, password, name })
+		return reply.status(201).send({
+			id: user.id
+		})
+	} catch (error) {
+		if (error instanceof ConflictError) {
+			return reply.status(409).send({
+				message: error.message
+			})
 		}
-	})
-
-	if (exists) {
-		return reply.status(409).send({ message: 'User already exists' })
+		return reply.status(500).send({
+			message: 'Internal server error'
+		})
 	}
-
-	const passwordHash = await bcrypt.hash(password, HASH_SALT)
-
-	const user = await prisma.user.create({
-		data: {
-			email,
-			passwordHash,
-			name
-		}
-	})
-
-	return reply.status(201).send({
-		id: user.id
-	})
 }
