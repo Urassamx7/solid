@@ -1,7 +1,7 @@
 import type { User } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import type { UsersRepository } from '@/interfaces/user-repository'
-import { UserAlreadyExistsError } from './errors/user-already-exists'
+import { UserAlreadyExistsError } from '../errors/user-already-exists'
 
 interface RegisterUseCaseRequest {
 	name: string
