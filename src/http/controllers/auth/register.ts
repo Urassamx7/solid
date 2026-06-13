@@ -27,8 +27,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 				message: error.message
 			})
 		}
-		return reply.status(500).send({
-			message: 'Internal server error'
-		})
+		throw error
 	}
 }
