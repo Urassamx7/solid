@@ -19,8 +19,8 @@ describe('Authenticate Use Case', () => {
 			title: 'Academia Ts Gym',
 			phone: '',
 			description: null,
-			latitude: new Decimal(0),
-			longitude: new Decimal(0)
+			latitude: new Decimal(-25.9532738),
+			longitude: new Decimal(32.571906)
 		})
 
 		vi.useFakeTimers()
@@ -84,5 +84,27 @@ describe('Authenticate Use Case', () => {
 		})
 
 		expect(checkIn.id).toEqual(expect.any(String))
+	})
+
+	it('should not be able to check-in on distant gym', async () => {
+		vi.setSystemTime(new Date(2026, 0, 20))
+
+		gymsRespository.items.push({
+			id: 'gym-02',
+			title: 'Academia Ts Gym',
+			phone: '',
+			description: null,
+			latitude: new Decimal(-25.8515238),
+			longitude: new Decimal(32.6296332)
+		})
+
+		expect(() =>
+			sut.execute({
+				gymId: 'gym-02',
+				userId: 'user-01',
+				userLatitude: -25.9532738,
+				userLongitude: 32.571906
+			})
+		).rejects.toBeInstanceOf(Error)
 	})
 })
