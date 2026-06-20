@@ -1,3 +1,4 @@
+import fastifyJwt from '@fastify/jwt'
 import fastify from 'fastify'
 import {
 	serializerCompiler,
@@ -13,6 +14,9 @@ export const app = fastify().withTypeProvider<ZodTypeProvider>()
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
+app.register(fastifyJwt, {
+	secret: env.JWT_SECRET_KEY,
+})
 app.register(appRoutes)
 
 app.setErrorHandler((error, _request, reply) => {

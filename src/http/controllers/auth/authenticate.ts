@@ -7,8 +7,6 @@ export async function authenticate(
 	request: FastifyRequest,
 	reply: FastifyReply
 ) {
-	let token: string
-
 	const authenticateSchema = z.object({
 		email: z.email(),
 		password: z.string().min(6)
@@ -19,7 +17,18 @@ export async function authenticate(
 	try {
 		const authenticateUseCase = makeAuthenticateUseCase()
 
-		await authenticateUseCase.execute({ email, password })
+		const payload = await authenticateUseCase.execute({ email, password })
+
+		const token = await reply.jwtSign(
+			{},
+			{
+				sign: {
+					sub: payload.user.id
+				}
+			}
+		)
+
+		return reply.code(200).send({ token })
 	} catch (error) {
 		if (error instanceof InvalidCredentialsError) {
 			return reply.status(400).send({
@@ -28,6 +37,4 @@ export async function authenticate(
 		}
 		throw error
 	}
-
-	return reply.status(200).send()
 }
