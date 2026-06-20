@@ -15,6 +15,8 @@
 		"start:dev": "tsx watch src/server.ts",
 		"build": "tsup src --format cjs --out-dir dist --clean",
 		"start": "node dist/server.js",
+		"test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+		"test:install-prisma-environment": "npm link vitest-environment-prisma",
 		"format": "bunx --bun @biomejs/biome format --write",
 		"lint": "bunx --bun @biomejs/biome lint --write",
 		"check": "bunx --bun @biomejs/biome check --write",
@@ -24,7 +26,7 @@
 		"db:deploy": "prisma migrate deploy",
 		"db:reset": "prisma migrate reset",
 		"test": "vitest run --project unit",
-		"test:e2e": "vitest run --project e2e",
+		"test:e2e": "vitest run --project e2e --config vite.config.ts",
 		"test:watch": "vitest --project unit",
 		"test:e2e:watch": "vitest --project e2e",
 		"test:coverage": "vitest run --coverage",
@@ -46,11 +48,14 @@
 		"@biomejs/biome": "2.4.16",
 		"@types/bun": "latest",
 		"@types/node": "^26.0.0",
+		"@types/supertest": "^7.2.0",
 		"@vitest/coverage-v8": "4.1.8",
 		"@vitest/ui": "^4.1.8",
 		"prisma": "6",
+		"supertest": "^7.2.2",
 		"tsx": "^4.22.4",
 		"typescript": "^6.0.3",
-		"vitest": "^4.1.8"
+		"vitest": "^4.1.8",
+		"vite-tsconfig-paths": "4.0.5"
 	}
 }

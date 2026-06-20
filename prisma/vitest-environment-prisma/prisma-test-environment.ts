@@ -17,7 +17,7 @@ function generateDBUrl(schema: string) {
 
 export default (<Environment>{
 	name: 'prisma',
-	transformMode: 'ssr',
+	viteEnvironment: 'ssr',
 	async setup() {
 		//? Criar DB de testes
 
@@ -36,7 +36,7 @@ export default (<Environment>{
 				//? Apagar DB de testes
 
 				await prisma.$executeRawUnsafe(
-					`DROP SCHEMA IF EXISTS "${schema}" CASCADE  `
+					`DROP SCHEMA IF EXISTS "${schema}" CASCADE`
 				)
 
 				await prisma.$disconnect()
