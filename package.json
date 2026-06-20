@@ -33,6 +33,7 @@
 		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
+		"@fastify/cookie": "^11.0.2",
 		"@fastify/jwt": "^10.1.0",
 		"@prisma/client": "6",
 		"@tsconfig/node24": "^24.0.4",
