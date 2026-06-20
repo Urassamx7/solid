@@ -3,6 +3,10 @@
 	"compilerOptions": {
 		"rootDir": ".",
 		"baseUrl": ".",
+		"types": ["bun", "node"],
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"paths": {
 			"@/*": ["src/*"]
 		}
