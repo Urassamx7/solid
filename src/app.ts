@@ -6,7 +6,8 @@ import {
 	type ZodTypeProvider
 } from 'fastify-type-provider-zod'
 import { ZodError, z } from 'zod'
-import { appRoutes } from './http/routes'
+import { authRoutes } from './http/controllers/auth/routes'
+import { gymsRoutes } from './http/controllers/gyms/routes'
 import { env } from './utils/env'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -15,9 +16,10 @@ app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
 app.register(fastifyJwt, {
-	secret: env.JWT_SECRET_KEY,
+	secret: env.JWT_SECRET_KEY
 })
-app.register(appRoutes)
+app.register(authRoutes)
+app.register(gymsRoutes)
 
 app.setErrorHandler((error, _request, reply) => {
 	if (error instanceof ZodError) {
